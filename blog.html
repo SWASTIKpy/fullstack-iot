@@ -1,0 +1,808 @@
+# blog.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoboParts IoT Blog</title>
+  <style>
+    *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#020617;
+  --card:#0f172a;
+  --orange:#f97316;
+  --amber:#fbbf24;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  overflow-x:hidden;
+}
+
+.container{
+  width:min(1400px,92%);
+  margin:auto;
+}
+
+.grid-bg{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background-image:
+  linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+  linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+
+.orbs{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:0.4;
+}
+
+.orb1{
+  width:300px;
+  height:300px;
+  background:#f97316;
+  top:-100px;
+  left:-100px;
+}
+
+.orb2{
+  width:350px;
+  height:350px;
+  background:#fbbf24;
+  right:-120px;
+  top:20%;
+}
+
+.orb3{
+  width:350px;
+  height:350px;
+  background:#ea580c;
+  bottom:-150px;
+  left:30%;
+}
+
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(2,6,23,0.7);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.nav-wrapper{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 0;
+}
+
+.logo-box{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo-icon{
+  width:50px;
+  height:50px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--orange),var(--amber));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:black;
+  font-weight:700;
+}
+
+.desktop-nav{
+  display:flex;
+  gap:30px;
+}
+
+.desktop-nav a{
+  color:white;
+  text-decoration:none;
+}
+
+.blog-hero{
+  padding:120px 0;
+}
+
+.hero-layout{
+  display:grid;
+  grid-template-columns:1.2fr 0.8fr;
+  gap:60px;
+  align-items:center;
+}
+
+.hero-badge{
+  display:inline-block;
+  padding:12px 22px;
+  border-radius:999px;
+  background:rgba(249,115,22,0.1);
+  border:1px solid rgba(249,115,22,0.2);
+  color:#fdba74;
+}
+
+.hero-content h1{
+  font-size:5rem;
+  margin-top:25px;
+  line-height:1;
+}
+
+.hero-content h1 span{
+  display:block;
+  color:var(--orange);
+}
+
+.hero-content p{
+  margin-top:28px;
+  line-height:1.9;
+  color:var(--muted);
+  max-width:650px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:20px;
+  margin-top:35px;
+}
+
+.primary-btn,
+.secondary-btn,
+.read-btn{
+  padding:16px 28px;
+  border-radius:18px;
+  text-decoration:none;
+  font-weight:700;
+  transition:0.3s;
+}
+
+.primary-btn{
+  background:linear-gradient(135deg,var(--orange),var(--amber));
+  color:black;
+}
+
+.secondary-btn{
+  border:1px solid rgba(255,255,255,0.1);
+  color:white;
+}
+
+.primary-btn:hover,
+.secondary-btn:hover,
+.read-btn:hover{
+  transform:translateY(-4px);
+}
+
+.hero-card,
+.project-card,
+.tutorial-card,
+.video-card{
+  background:rgba(15,23,42,0.88);
+  border:1px solid rgba(249,115,22,0.15);
+  border-radius:28px;
+  backdrop-filter:blur(18px);
+}
+
+.hero-card{
+  padding:40px;
+  position:relative;
+  overflow:hidden;
+}
+
+.glow{
+  position:absolute;
+  width:250px;
+  height:250px;
+  background:rgba(249,115,22,0.15);
+  border-radius:50%;
+  filter:blur(80px);
+  top:-80px;
+  right:-80px;
+}
+
+.hero-card h3{
+  color:#fdba74;
+  margin-top:30px;
+}
+
+.hero-card p{
+  color:var(--muted);
+  margin-top:15px;
+  line-height:1.8;
+}
+
+.chip-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:25px;
+}
+
+.chip-grid span,
+.project-meta span{
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(249,115,22,0.08);
+  border:1px solid rgba(249,115,22,0.15);
+  color:#fdba74;
+}
+
+.section-heading{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+.section-heading h2{
+  font-size:3rem;
+}
+
+.section-heading p{
+  color:var(--muted);
+  margin-top:16px;
+}
+
+.projects-section,
+.tutorial-section,
+.video-section{
+  padding:100px 0;
+}
+
+.projects-grid,
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:30px;
+}
+
+.project-card img{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  border-radius:28px 28px 0 0;
+}
+
+.project-content{
+  padding:30px;
+}
+
+.project-tag{
+  display:inline-block;
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(34,197,94,0.1);
+  color:#4ade80;
+  margin-bottom:18px;
+}
+
+.project-tag.advanced{
+  background:rgba(59,130,246,0.1);
+  color:#60a5fa;
+}
+
+.project-tag.pro{
+  background:rgba(168,85,247,0.1);
+  color:#c084fc;
+}
+
+.project-content h3{
+  margin-bottom:16px;
+}
+
+.project-content p{
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.project-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:25px;
+}
+
+.read-btn{
+  display:inline-block;
+  margin-top:28px;
+  background:linear-gradient(135deg,var(--orange),var(--amber));
+  color:black;
+}
+
+.tutorial-layout{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:30px;
+}
+
+.tutorial-card{
+  padding:35px;
+}
+
+.tutorial-card h3{
+  color:#fdba74;
+  margin-bottom:25px;
+}
+
+.tutorial-card ul,
+.tutorial-card ol{
+  padding-left:20px;
+  color:var(--muted);
+  line-height:2;
+}
+
+.diagram-image{
+  width:100%;
+  border-radius:20px;
+}
+
+.video-card{
+  padding:20px;
+}
+
+.video-card iframe{
+  width:100%;
+  height:300px;
+  border:none;
+  border-radius:20px;
+}
+
+.video-card h3{
+  margin-top:20px;
+}
+
+.footer{
+  padding:60px 0;
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+
+.footer-content{
+  text-align:center;
+}
+
+.footer-content p{
+  margin-top:15px;
+  color:var(--muted);
+}
+
+@media(max-width:1100px){
+
+  .hero-layout,
+  .tutorial-layout,
+  .projects-grid,
+  .video-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero-content{
+    text-align:center;
+  }
+
+  .hero-content p{
+    margin:auto;
+    margin-top:28px;
+  }
+
+  .hero-buttons{
+    justify-content:center;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .hero-content h1{
+    font-size:3.5rem;
+  }
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .section-heading h2{
+    font-size:2.3rem;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .hero-content h1{
+    font-size:2.8rem;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+}
+
+  </style>
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="grid-bg"></div>
+
+<div class="orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+  <div class="container nav-wrapper">
+
+    <div class="logo-box">
+      <div class="logo-icon">iot</div>
+      <h1>RoboParts</h1>
+    </div>
+
+    <nav class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="#tutorials">Tutorials</a>
+      <a href="#videos">Videos</a>
+    </nav>
+
+  </div>
+
+</header>
+
+<!-- HERO -->
+<section class="blog-hero">
+
+  <div class="container hero-layout">
+
+    <div class="hero-content">
+
+      <div class="hero-badge">
+        IoT Learning Platform
+      </div>
+
+      <h1>
+        Learn
+        <span>IoT Projects</span>
+        Step By Step
+      </h1>
+
+      <p>
+        Explore Arduino, ESP32, sensors, robotics,
+        automation systems, and complete IoT tutorials
+        with circuit diagrams, source code, and video guides.
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#projects" class="primary-btn">
+          Explore Projects
+        </a>
+
+        <a href="#videos" class="secondary-btn">
+          Watch Tutorials
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="hero-card card-3d">
+
+      <div class="glow"></div>
+
+      <div class="mini-chip"></div>
+
+      <h3>Smart Home Automation</h3>
+
+      <p>
+        ESP32 based smart control system
+        with relay automation.
+      </p>
+
+      <div class="chip-grid">
+
+        <span>ESP32</span>
+        <span>Relay</span>
+        <span>MQTT</span>
+        <span>IoT</span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FEATURED PROJECTS -->
+<section class="projects-section" id="projects">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <h2>Featured IoT Projects</h2>
+
+      <p>
+        Complete tutorials with diagrams and code
+      </p>
+
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- PROJECT CARD -->
+      <div class="project-card card-3d">
+
+        <img
+          src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop"
+          alt="IoT Project"
+        >
+
+        <div class="project-content">
+
+          <div class="project-tag">
+            Beginner Friendly
+          </div>
+
+          <h3>
+            Smart Home Automation Using ESP32
+          </h3>
+
+          <p>
+            Learn how to build a WiFi based home automation
+            system using ESP32 and relay modules.
+          </p>
+
+          <div class="project-meta">
+            <span>ESP32</span>
+            <span>Relay Module</span>
+            <span>Blynk</span>
+          </div>
+
+          <a href="#" class="read-btn">
+            Read Full Tutorial
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- PROJECT CARD -->
+      <div class="project-card card-3d">
+
+        <img
+          src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1200&auto=format&fit=crop"
+          alt="Arduino"
+        >
+
+        <div class="project-content">
+
+          <div class="project-tag advanced">
+            Intermediate
+          </div>
+
+          <h3>
+            Obstacle Avoiding Robot Using Arduino
+          </h3>
+
+          <p>
+            Build an autonomous robot car using ultrasonic
+            sensors and motor driver modules.
+          </p>
+
+          <div class="project-meta">
+            <span>Arduino UNO</span>
+            <span>L298N</span>
+            <span>Ultrasonic</span>
+          </div>
+
+          <a href="#" class="read-btn">
+            Read Full Tutorial
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- PROJECT CARD -->
+      <div class="project-card card-3d">
+
+        <img
+          src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+          alt="Weather Station"
+        >
+
+        <div class="project-content">
+
+          <div class="project-tag pro">
+            Advanced
+          </div>
+
+          <h3>
+            IoT Weather Monitoring System
+          </h3>
+
+          <p>
+            Create a live weather station using sensors,
+            cloud dashboard and ESP8266.
+          </p>
+
+          <div class="project-meta">
+            <span>ESP8266</span>
+            <span>DHT11</span>
+            <span>ThingSpeak</span>
+          </div>
+
+          <a href="#" class="read-btn">
+            Read Full Tutorial
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- TUTORIAL SECTION -->
+<section class="tutorial-section" id="tutorials">
+
+  <div class="container">
+
+    <div class="section-heading">
+      <h2>How To Build Projects</h2>
+      <p>Step-by-step process with Arduino IDE setup</p>
+    </div>
+
+    <div class="tutorial-layout">
+
+      <!-- LEFT -->
+      <div class="tutorial-card card-3d">
+
+        <h3>1. Components Required</h3>
+
+        <ul>
+          <li>Arduino UNO / ESP32</li>
+          <li>USB Cable</li>
+          <li>Relay Module</li>
+          <li>Jumper Wires</li>
+          <li>Breadboard</li>
+          <li>Sensors</li>
+        </ul>
+
+      </div>
+
+      <!-- CENTER -->
+      <div class="tutorial-card card-3d">
+
+        <h3>2. Circuit Diagram</h3>
+
+        <img
+          class="diagram-image"
+          src="https://upload.wikimedia.org/wikipedia/commons/3/38/Arduino_Uno_-_R3.jpg"
+          alt="Circuit Diagram"
+        >
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="tutorial-card card-3d">
+
+        <h3>3. Arduino IDE Setup</h3>
+
+        <ol>
+          <li>Install Arduino IDE</li>
+          <li>Select Board</li>
+          <li>Select COM Port</li>
+          <li>Paste Arduino Code</li>
+          <li>Click Upload</li>
+          <li>Monitor Serial Output</li>
+        </ol>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- VIDEO SECTION -->
+<section class="video-section" id="videos">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <h2>Video Tutorials</h2>
+
+      <p>
+        Watch complete project implementation videos
+      </p>
+
+    </div>
+
+    <div class="video-grid">
+
+      <div class="video-card card-3d">
+
+        <iframe
+          src="https://www.youtube.com/embed/1B0s28y1h4g"
+          title="YouTube video"
+          allowfullscreen
+        ></iframe>
+
+        <h3>
+          ESP32 Home Automation Tutorial
+        </h3>
+
+      </div>
+
+      <div class="video-card card-3d">
+
+        <iframe
+          src="https://www.youtube.com/embed/fJWR7dBuc18"
+          title="YouTube video"
+          allowfullscreen
+        ></iframe>
+
+        <h3>
+          Arduino Robot Car Tutorial
+        </h3>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+  <div class="container footer-content">
+
+    <h2>RoboParts IoT Learning Hub</h2>
+
+    <p>
+      Learn robotics, automation and IoT development
+      with real-world projects.
+    </p>
+
+  </div>
+
+</footer>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RoboParts - Order Details</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+
+    .order-page{
+      padding:120px 0 80px;
+      min-height:100vh;
+    }
+
+    .order-layout{
+      display:grid;
+      grid-template-columns:1.4fr 0.9fr;
+      gap:35px;
+      align-items:start;
+    }
+
+    .order-card{
+      background:rgba(15,23,42,0.88);
+      border:1px solid rgba(249,115,22,0.2);
+      border-radius:28px;
+      padding:30px;
+      backdrop-filter:blur(18px);
+    }
+
+    .product-preview{
+      display:flex;
+      gap:25px;
+      align-items:flex-start;
+      margin-bottom:30px;
+    }
+
+    .product-preview img{
+      width:180px;
+      height:180px;
+      object-fit:cover;
+      border-radius:20px;
+      border:1px solid rgba(249,115,22,0.25);
+    }
+
+    .product-info h2{
+      font-size:2rem;
+      margin-bottom:10px;
+      color:#f97316;
+    }
+
+    .product-info p{
+      color:#cbd5e1;
+      line-height:1.7;
+      margin-bottom:14px;
+    }
+
+    .product-spec{
+      color:#94a3b8;
+      font-size:0.9rem;
+    }
+
+    .quantity-box{
+      margin-top:25px;
+      display:flex;
+      align-items:center;
+      gap:15px;
+    }
+
+    .qty-btn{
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:50%;
+      background:#1e293b;
+      color:white;
+      font-size:1.2rem;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .qty-btn:hover{
+      background:#f97316;
+      color:black;
+    }
+
+    .qty-input{
+      width:70px;
+      text-align:center;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(249,115,22,0.2);
+      background:#0f172a;
+      color:white;
+      font-size:1rem;
+    }
+
+    .tracking-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:35px;
+  gap:20px;
+}
+
+.tracking-subtitle{
+  color:#94a3b8;
+  margin-top:6px;
+  font-size:0.9rem;
+}
+
+.tracking-badge{
+  background:rgba(249,115,22,0.12);
+  border:1px solid rgba(249,115,22,0.25);
+  color:#f97316;
+  padding:10px 18px;
+  border-radius:999px;
+  font-size:0.8rem;
+  font-weight:700;
+  letter-spacing:1px;
+}
+
+.tracking-progress-wrapper{
+  position:relative;
+  margin-top:30px;
+}
+
+.tracking-line{
+  position:absolute;
+  left:16px;
+  top:0;
+  width:3px;
+  height:100%;
+  background:rgba(255,255,255,0.08);
+  border-radius:999px;
+}
+
+.tracking-line-active{
+  width:100%;
+  height:48%;
+  background:linear-gradient(to bottom,#f97316,#fbbf24);
+  border-radius:999px;
+  box-shadow:0 0 20px rgba(249,115,22,0.5);
+  animation:trackingGlow 2s infinite alternate;
+}
+
+.tracking-steps{
+  display:flex;
+  flex-direction:column;
+  gap:35px;
+  position:relative;
+}
+
+.tracking-step{
+  display:flex;
+  align-items:flex-start;
+  gap:18px;
+  position:relative;
+}
+
+.step-icon{
+  width:34px;
+  height:34px;
+  min-width:34px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.15);
+  background:#0f172a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:0.9rem;
+  z-index:2;
+}
+
+.tracking-step.completed .step-icon{
+  background:#f97316;
+  border-color:#f97316;
+  color:black;
+  box-shadow:0 0 25px rgba(249,115,22,0.5);
+}
+
+.tracking-step.active .step-icon{
+  background:#fbbf24;
+  border-color:#fbbf24;
+  box-shadow:0 0 30px rgba(251,191,36,0.6);
+}
+
+.step-content h4{
+  color:white;
+  margin-bottom:5px;
+}
+
+.step-content p{
+  color:#94a3b8;
+  font-size:0.88rem;
+}
+
+.tracking-info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+  margin-top:40px;
+}
+
+.tracking-info-card{
+  background:#0f172a;
+  border:1px solid rgba(249,115,22,0.12);
+  border-radius:18px;
+  padding:20px;
+  transition:0.3s;
+}
+
+.tracking-info-card:hover{
+  transform:translateY(-4px);
+  border-color:#f97316;
+}
+
+.tracking-info-card span{
+  display:block;
+  color:#94a3b8;
+  font-size:0.8rem;
+  margin-bottom:8px;
+}
+
+.tracking-info-card strong{
+  color:white;
+  font-size:1rem;
+}
+
+.pulse-ring{
+  position:relative;
+}
+
+.pulse-ring::after{
+  content:'';
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:2px solid rgba(251,191,36,0.5);
+  animation:ringPulse 1.8s infinite;
+}
+
+@keyframes ringPulse{
+
+  0%{
+    transform:scale(0.8);
+    opacity:1;
+  }
+
+  100%{
+    transform:scale(1.8);
+    opacity:0;
+  }
+
+}
+
+@keyframes trackingGlow{
+
+  from{
+    box-shadow:0 0 10px rgba(249,115,22,0.3);
+  }
+
+  to{
+    box-shadow:0 0 28px rgba(249,115,22,0.7);
+  }
+
+}
+
+@media(max-width:768px){
+
+  .tracking-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .tracking-info-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+    .summary-card{
+      position:sticky;
+      top:120px;
+    }
+
+    .summary-title{
+      color:#f97316;
+      font-size:1.5rem;
+      margin-bottom:25px;
+    }
+
+    .price-row{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:18px;
+      color:#cbd5e1;
+    }
+
+    .total-row{
+      border-top:1px solid rgba(255,255,255,0.08);
+      padding-top:20px;
+      margin-top:20px;
+      font-size:1.2rem;
+      font-weight:bold;
+      color:#fbbf24;
+    }
+
+    .delivery-box{
+      margin-top:30px;
+      padding:18px;
+      border-radius:18px;
+      background:rgba(249,115,22,0.08);
+      border:1px solid rgba(249,115,22,0.15);
+    }
+
+    .delivery-box h4{
+      margin-bottom:8px;
+      color:#f97316;
+    }
+
+    .delivery-box p{
+      color:#cbd5e1;
+      font-size:0.95rem;
+    }
+
+    .payment-methods{
+      margin-top:35px;
+    }
+
+    .payment-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:15px;
+      margin-top:18px;
+    }
+
+    .payment-card{
+      border:1px solid rgba(249,115,22,0.15);
+      background:#0f172a;
+      border-radius:18px;
+      padding:18px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .payment-card:hover{
+      border-color:#f97316;
+      transform:translateY(-3px);
+    }
+
+    .payment-card.active{
+      border-color:#f97316;
+      background:rgba(249,115,22,0.08);
+      box-shadow:0 0 25px rgba(249,115,22,0.15);
+    }
+
+    .payment-card h4{
+      color:white;
+      margin-bottom:6px;
+    }
+
+    .payment-card p{
+      color:#94a3b8;
+      font-size:0.85rem;
+    }
+
+    .confirm-btn{
+      width:100%;
+      margin-top:35px;
+      padding:16px;
+      border:none;
+      border-radius:18px;
+      background:#f97316;
+      color:black;
+      font-weight:bold;
+      font-size:1rem;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .confirm-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 0 35px rgba(249,115,22,0.5);
+    }
+
+    .success-message{
+      margin-top:20px;
+      padding:16px;
+      border-radius:16px;
+      background:rgba(34,197,94,0.1);
+      border:1px solid rgba(34,197,94,0.25);
+      color:#86efac;
+      display:none;
+    }
+
+    @media(max-width:992px){
+
+      .order-layout{
+        grid-template-columns:1fr;
+      }
+
+      .summary-card{
+        position:relative;
+        top:0;
+      }
+
+    }
+
+    @media(max-width:768px){
+
+      .product-preview{
+        flex-direction:column;
+      }
+
+      .product-preview img{
+        width:100%;
+        height:250px;
+      }
+
+      .payment-grid{
+        grid-template-columns:1fr;
+      }
+
+      .product-info h2{
+        font-size:1.7rem;
+      }
+
+    }
+    /* ADDRESS */
+
+.address-box{
+  margin-top:40px;
+  padding-top:20px;
+}
+
+.address-grid{
+  display:grid;
+  gap:16px;
+  margin-top:20px;
+}
+
+.address-grid textarea{
+  min-height:120px;
+  resize:none;
+}
+
+.address-grid input,
+.address-grid textarea{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  background:#0f172a;
+  border:1px solid rgba(249,115,22,0.15);
+  color:white;
+  outline:none;
+}
+
+/* TRACKING */
+
+.tracking-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:35px;
+  gap:20px;
+}
+
+.tracking-subtitle{
+  color:#94a3b8;
+  margin-top:6px;
+  font-size:0.9rem;
+}
+
+.tracking-badge{
+  background:rgba(249,115,22,0.12);
+  border:1px solid rgba(249,115,22,0.25);
+  color:#f97316;
+  padding:10px 18px;
+  border-radius:999px;
+  font-size:0.8rem;
+  font-weight:700;
+}
+
+.tracking-progress-wrapper{
+  position:relative;
+  margin-top:30px;
+}
+
+.tracking-line{
+  position:absolute;
+  left:16px;
+  top:0;
+  width:3px;
+  height:100%;
+  background:rgba(255,255,255,0.08);
+}
+
+.tracking-line-active{
+  width:100%;
+  height:48%;
+  background:linear-gradient(to bottom,#f97316,#fbbf24);
+  box-shadow:0 0 20px rgba(249,115,22,0.5);
+}
+
+.tracking-steps{
+  display:flex;
+  flex-direction:column;
+  gap:35px;
+}
+
+.tracking-step{
+  display:flex;
+  align-items:flex-start;
+  gap:18px;
+}
+
+.step-icon{
+  width:34px;
+  height:34px;
+  min-width:34px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.15);
+  background:#0f172a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.completed .step-icon{
+  background:#f97316;
+  border-color:#f97316;
+  color:black;
+}
+
+.active .step-icon{
+  background:#fbbf24;
+}
+
+.tracking-info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+  margin-top:40px;
+}
+
+.tracking-info-card{
+  background:#0f172a;
+  border:1px solid rgba(249,115,22,0.12);
+  border-radius:18px;
+  padding:20px;
+}
+
+.tracking-info-card span{
+  display:block;
+  color:#94a3b8;
+  font-size:0.8rem;
+  margin-bottom:8px;
+}
+
+.tracking-info-card strong{
+  color:white;
+}
+
+.pulse-ring{
+  position:relative;
+}
+
+.pulse-ring::after{
+  content:'';
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:2px solid rgba(251,191,36,0.5);
+  animation:ringPulse 1.8s infinite;
+}
+
+/* BUTTONS */
+
+.extra-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  margin-top:20px;
+}
+
+.invoice-btn,
+.whatsapp-btn{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.invoice-btn{
+  background:#1e293b;
+  color:white;
+}
+
+.whatsapp-btn{
+  background:#22c55e;
+  color:white;
+}
+
+/* ANIMATION */
+
+@keyframes ringPulse{
+
+  0%{
+    transform:scale(0.8);
+    opacity:1;
+  }
+
+  100%{
+    transform:scale(1.8);
+    opacity:0;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .tracking-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .tracking-info-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+/* ========================= */
+/* PAYMENT POPUP */
+/* ========================= */
+
+.payment-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(12px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+
+  opacity:0;
+  pointer-events:none;
+  transition:0.4s;
+}
+
+.payment-popup.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.payment-modal{
+  width:min(420px,92%);
+  background:#0f172a;
+  border:1px solid rgba(249,115,22,0.15);
+  border-radius:32px;
+  padding:35px;
+  position:relative;
+  text-align:center;
+}
+
+.close-popup{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:38px;
+  height:38px;
+  border:none;
+  border-radius:50%;
+  background:#1e293b;
+  color:white;
+  cursor:pointer;
+  font-size:1rem;
+}
+
+.payment-top h2{
+  color:#f97316;
+  margin-top:15px;
+}
+
+.payment-top p{
+  color:#94a3b8;
+  margin-top:8px;
+}
+
+.upi-logo{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#f97316,#fbbf24);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+  color:black;
+  margin:auto;
+  box-shadow:0 0 30px rgba(249,115,22,0.4);
+}
+
+.qr-box{
+  margin-top:28px;
+}
+
+.qr-box img{
+  width:220px;
+  height:220px;
+  border-radius:22px;
+  border:6px solid white;
+}
+
+.upi-details{
+  margin-top:25px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.upi-row{
+  display:flex;
+  justify-content:space-between;
+  background:#1e293b;
+  padding:14px 18px;
+  border-radius:14px;
+}
+
+.upi-row span{
+  color:#94a3b8;
+}
+
+.upi-row strong{
+  color:white;
+}
+
+.payment-loader{
+  margin-top:28px;
+}
+
+.spinner{
+  width:55px;
+  height:55px;
+  border:4px solid rgba(255,255,255,0.1);
+  border-top:4px solid #f97316;
+  border-radius:50%;
+  margin:auto;
+  animation:spin 1s linear infinite;
+}
+
+#loaderText{
+  margin-top:15px;
+  color:#94a3b8;
+}
+
+.pay-now-btn{
+  width:100%;
+  margin-top:28px;
+  padding:16px;
+  border:none;
+  border-radius:18px;
+  background:#f97316;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.pay-now-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 30px rgba(249,115,22,0.5);
+}
+
+@keyframes spin{
+
+  from{
+    transform:rotate(0deg);
+  }
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+  </style>
+</head>
+
+<!-- ========================= -->
+<!-- COMPLETE ORDER PAGE -->
+<!-- SAFE UPDATED VERSION -->
+<!-- ========================= -->
+
+<body>
+
+<div class="bg-grid"></div>
+
+<div class="orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<header class="navbar">
+  <div class="container nav-wrapper">
+
+    <div class="logo-box">
+      <div class="logo-icon">iot</div>
+      <h1>RoboParts</h1>
+    </div>
+
+    <nav class="desktop-nav">
+      <a href="index.html">Back to Store</a>
+    </nav>
+
+  </div>
+</header>
+
+<section class="order-page">
+
+  <div class="container order-layout">
+
+    <!-- LEFT -->
+    <div class="order-card card-3d">
+
+      <!-- PRODUCT -->
+      <div class="product-preview">
+
+        <img src="resources/dc.png" alt="product">
+
+        <div class="product-info">
+
+          <h2>DC Motor</h2>
+
+          <p>
+            High torque geared DC motor ideal for robotics,
+            automation and IoT based movement systems.
+          </p>
+
+          <div class="product-spec">
+            Voltage: 12V • RPM: 300 • Metal Gear
+          </div>
+
+          <!-- QUANTITY -->
+          <div class="quantity-box">
+
+            <button class="qty-btn" id="minus">−</button>
+
+            <input
+              type="number"
+              value="1"
+              min="1"
+              class="qty-input"
+              id="qty"
+            >
+
+            <button class="qty-btn" id="plus">+</button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TRACKING -->
+      <div class="tracking-box">
+
+        <div class="tracking-header">
+
+          <div>
+            <h3 class="tracking-title">
+              Live Shipment Tracking
+            </h3>
+
+            <p class="tracking-subtitle">
+              Track your robotics components in real time
+            </p>
+          </div>
+
+          <div class="tracking-badge">
+            IN TRANSIT
+          </div>
+
+        </div>
+
+        <div class="tracking-progress-wrapper">
+
+          <div class="tracking-line">
+            <div class="tracking-line-active"></div>
+          </div>
+
+          <div class="tracking-steps">
+
+            <div class="tracking-step completed">
+              <div class="step-icon">✓</div>
+
+              <div class="step-content">
+                <h4>Order Confirmed</h4>
+                <p>06 May • 10:45 AM</p>
+              </div>
+            </div>
+
+            <div class="tracking-step completed">
+              <div class="step-icon">✓</div>
+
+              <div class="step-content">
+                <h4>Packed</h4>
+                <p>06 May • 01:15 PM</p>
+              </div>
+            </div>
+
+            <div class="tracking-step active">
+              <div class="step-icon pulse-ring"></div>
+
+              <div class="step-content">
+                <h4>Shipped</h4>
+                <p>Your package left warehouse</p>
+              </div>
+            </div>
+
+            <div class="tracking-step">
+              <div class="step-icon"></div>
+
+              <div class="step-content">
+                <h4>Out for Delivery</h4>
+                <p>Expected tomorrow</p>
+              </div>
+            </div>
+
+            <div class="tracking-step">
+              <div class="step-icon"></div>
+
+              <div class="step-content">
+                <h4>Delivered</h4>
+                <p>Estimated 12 May</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- TRACKING INFO -->
+        <div class="tracking-info-grid">
+
+          <div class="tracking-info-card">
+            <span>Tracking ID</span>
+            <strong>#RBX20489</strong>
+          </div>
+
+          <div class="tracking-info-card">
+            <span>Courier</span>
+            <strong>BlueDart Express</strong>
+          </div>
+
+          <div class="tracking-info-card">
+            <span>Estimated Delivery</span>
+            <strong>12 May</strong>
+          </div>
+
+          <div class="tracking-info-card">
+            <span>Shipping Type</span>
+            <strong>Priority</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="address-box">
+
+        <h3 class="tracking-title">
+          Delivery Address
+        </h3>
+
+        <div class="address-grid">
+
+          <input type="text" placeholder="Full Name">
+
+          <input type="tel" placeholder="Phone Number">
+
+          <textarea placeholder="Full Address"></textarea>
+
+          <input type="text" placeholder="Pincode">
+
+          <input type="text" placeholder="State">
+
+          <input type="text" placeholder="Landmark">
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="order-card summary-card card-3d">
+
+      <h3 class="summary-title">
+        Order Summary
+      </h3>
+
+      <div class="price-row">
+        <span>Product Price</span>
+        <span id="price">₹350</span>
+      </div>
+
+      <div class="price-row">
+        <span>Quantity</span>
+        <span id="qty-text">1</span>
+      </div>
+
+      <div class="price-row">
+        <span>Subtotal</span>
+        <span id="subtotal">₹350</span>
+      </div>
+
+      <div class="price-row">
+        <span>GST (18%)</span>
+        <span id="gst">₹63</span>
+      </div>
+
+      <div class="price-row total-row">
+        <span>Total</span>
+        <span id="total">₹413</span>
+      </div>
+
+      <!-- DELIVERY -->
+      <div class="delivery-box">
+        <h4>Estimated Delivery</h4>
+        <p id="deliveryDate">
+          12 May - 15 May • Free Shipping Available
+        </p>
+      </div>
+
+      <!-- PAYMENT -->
+      <div class="payment-methods">
+
+        <h3 class="tracking-title">
+          Payment Method
+        </h3>
+
+        <div class="payment-grid">
+
+          <div class="payment-card active">
+            <h4>UPI</h4>
+            <p>PhonePe / GPay / Paytm</p>
+          </div>
+
+          <div class="payment-card">
+            <h4>Cash on Delivery</h4>
+            <p>Pay when delivered</p>
+          </div>
+
+          <div class="payment-card">
+            <h4>Credit Card</h4>
+            <p>Visa / Mastercard</p>
+          </div>
+
+          <div class="payment-card">
+            <h4>Net Banking</h4>
+            <p>All major banks</p>
+          </div>
+
+          <div class="payment-card">
+            <h4>Wallets</h4>
+            <p>Amazon Pay / PhonePe</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BUTTON -->
+      <button class="confirm-btn" id="confirmBtn">
+        Confirm Order
+      </button>
+
+      <!-- SUCCESS -->
+      <div class="success-message" id="successMsg">
+        ✅ Order Placed Successfully!
+      </div>
+
+      <!-- EXTRA BUTTONS -->
+      <div class="extra-buttons">
+
+        <button class="invoice-btn" id="invoiceBtn">
+          Download Invoice
+        </button>
+
+        <button class="whatsapp-btn" id="whatsappBtn">
+          Order on WhatsApp
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- ========================= -->
+<!-- DEMO PAYMENT POPUP -->
+<!-- Paste BELOW </section> -->
+<!-- ========================= -->
+
+<div class="payment-popup" id="paymentPopup">
+
+  <div class="payment-modal card-3d">
+
+    <button class="close-popup" id="closePopup">
+      ✕
+    </button>
+
+    <div class="payment-top">
+
+      <div class="upi-logo">
+        ₹
+      </div>
+
+      <h2>UPI Payment</h2>
+
+      <p>
+        Scan QR or pay using UPI
+      </p>
+
+    </div>
+
+    <!-- QR -->
+    <div class="qr-box">
+
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=DemoPayment"
+        alt="QR Code"
+      >
+
+    </div>
+
+    <!-- PAYMENT INFO -->
+    <div class="upi-details">
+
+      <div class="upi-row">
+        <span>UPI ID</span>
+        <strong>roboparts@upi</strong>
+      </div>
+
+      <div class="upi-row">
+        <span>Amount</span>
+        <strong id="popupAmount">₹413</strong>
+      </div>
+
+    </div>
+
+    <!-- LOADER -->
+    <div class="payment-loader" id="paymentLoader">
+
+      <div class="spinner"></div>
+
+      <p id="loaderText">
+        Waiting for payment...
+      </p>
+
+    </div>
+
+    <!-- BUTTON -->
+    <button class="pay-now-btn" id="fakePayBtn">
+      Simulate Payment
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ========================= */
+/* QUANTITY UPDATE */
+/* ========================= */
+
+const qtyInput = document.getElementById('qty');
+const plusBtn = document.getElementById('plus');
+const minusBtn = document.getElementById('minus');
+
+const qtyText = document.getElementById('qty-text');
+const subtotal = document.getElementById('subtotal');
+const gst = document.getElementById('gst');
+const total = document.getElementById('total');
+
+const basePrice = 350;
+
+function updatePrice(){
+
+  let qty = parseInt(qtyInput.value);
+
+  if(qty < 1){
+    qty = 1;
+    qtyInput.value = 1;
+  }
+
+  const subtotalValue = basePrice * qty;
+  const gstValue = subtotalValue * 0.18;
+  const totalValue = subtotalValue + gstValue;
+
+  qtyText.textContent = qty;
+
+  subtotal.textContent =
+  `₹${subtotalValue}`;
+
+  gst.textContent =
+  `₹${gstValue.toFixed(0)}`;
+
+  total.textContent =
+  `₹${totalValue.toFixed(0)}`;
+
+}
+
+plusBtn.addEventListener('click', () => {
+  qtyInput.value++;
+  updatePrice();
+});
+
+minusBtn.addEventListener('click', () => {
+  qtyInput.value--;
+  updatePrice();
+});
+
+qtyInput.addEventListener('input', updatePrice);
+
+/* ========================= */
+/* PAYMENT ACTIVE */
+/* ========================= */
+
+const paymentCards =
+document.querySelectorAll('.payment-card');
+
+paymentCards.forEach(card => {
+
+  card.addEventListener('click', () => {
+
+    paymentCards.forEach(c => {
+      c.classList.remove('active');
+    });
+
+    card.classList.add('active');
+
+  });
+
+});
+
+/* ========================= */
+/* PAYMENT POPUP */
+/* ========================= */
+
+const paymentPopup =
+document.getElementById('paymentPopup');
+
+const confirmBtn =
+document.getElementById('confirmBtn');
+
+const closePopup =
+document.getElementById('closePopup');
+
+const fakePayBtn =
+document.getElementById('fakePayBtn');
+
+const loaderText =
+document.getElementById('loaderText');
+
+const popupAmount =
+document.getElementById('popupAmount');
+
+const successMsg =
+document.getElementById('successMsg');
+
+/* OPEN POPUP */
+
+confirmBtn.addEventListener('click', () => {
+
+  paymentPopup.classList.add('show');
+
+  popupAmount.innerText =
+  total.innerText;
+
+});
+
+/* CLOSE POPUP */
+
+closePopup.addEventListener('click', () => {
+
+  paymentPopup.classList.remove('show');
+
+});
+
+/* DEMO PAYMENT */
+
+fakePayBtn.addEventListener('click', () => {
+
+  fakePayBtn.innerHTML =
+  'Processing...';
+
+  loaderText.innerHTML =
+  'Connecting to bank...';
+
+  setTimeout(() => {
+
+    loaderText.innerHTML =
+    'Processing secure payment...';
+
+  }, 1800);
+
+  setTimeout(() => {
+
+    loaderText.innerHTML =
+    'Payment successful!';
+
+  }, 3500);
+
+  setTimeout(() => {
+
+    paymentPopup.classList.remove('show');
+
+    successMsg.style.display = 'block';
+
+    successMsg.innerHTML = `
+
+      <div style="
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+      ">
+
+        <strong>
+          Payment Successful
+        </strong>
+
+        <span>
+          Transaction ID:
+          DEMO_${Math.floor(Math.random()*100000)}
+        </span>
+
+        <span>
+          Shipment tracking activated
+        </span>
+
+      </div>
+
+    `;
+
+    confirmBtn.innerHTML =
+    '✓ Order Confirmed';
+
+  }, 5200);
+
+});
+
+
+
+/* ========================= */
+/* WHATSAPP */
+/* ========================= */
+
+const whatsappBtn =
+document.getElementById('whatsappBtn');
+
+whatsappBtn.addEventListener('click', () => {
+
+  window.open(
+    `https://wa.me/919999999999?text=I want to order DC Motor`
+  );
+
+});
+
+/* ========================= */
+/* INVOICE */
+/* ========================= */
+
+/* ========================= */
+/* DOWNLOAD INVOICE */
+/* ========================= */
+
+const invoiceBtn =
+document.getElementById('invoiceBtn');
+
+invoiceBtn.addEventListener('click', () => {
+
+  const { jsPDF } = window.jspdf;
+
+  const doc = new jsPDF();
+
+  // PRODUCT DETAILS
+  const productName = "DC Motor";
+
+  const qty =
+  parseInt(qtyInput.value);
+
+  const unitPrice = basePrice;
+
+  const subtotalValue =
+  unitPrice * qty;
+
+  const gstValue =
+  subtotalValue * 0.18;
+
+  const totalValue =
+  subtotalValue + gstValue;
+
+  // HEADER
+  doc.setFontSize(22);
+
+  doc.text(
+    "RoboParts Invoice",
+    20,
+    20
+  );
+
+  // LINE
+  doc.line(20, 28, 190, 28);
+
+  // ORDER INFO
+  doc.setFontSize(14);
+
+  doc.text(
+    "Order Details",
+    20,
+    45
+  );
+
+  doc.setFontSize(11);
+
+  doc.text(
+    `Product: ${productName}`,
+    20,
+    60
+  );
+
+  doc.text(
+    `Quantity: ${qty}`,
+    20,
+    72
+  );
+
+  doc.text(
+    `Unit Price: ₹${unitPrice}`,
+    20,
+    84
+  );
+
+  doc.text(
+    `Subtotal: ₹${subtotalValue}`,
+    20,
+    100
+  );
+
+  doc.text(
+    `GST (18%): ₹${gstValue.toFixed(0)}`,
+    20,
+    112
+  );
+
+  // TOTAL
+  doc.setFontSize(15);
+
+  doc.text(
+    `Total Amount: ₹${totalValue.toFixed(0)}`,
+    20,
+    132
+  );
+
+  // FOOTER
+  doc.setFontSize(10);
+
+  doc.text(
+    "Thank you for shopping with RoboParts",
+    20,
+    160
+  );
+
+  // SAVE PDF
+  doc.save("RoboParts-Invoice.pdf");
+
+});
+</script>
+
+</body>
+</html>

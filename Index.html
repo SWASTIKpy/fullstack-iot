@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Parts Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <div class="orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+
+      <div class="logo-box">
+        <div class="logo-icon">iot</div>
+        <h1>IoT Parts Store</h1>
+      </div>
+
+      <nav class="desktop-nav">
+        <a href="#">Home</a>
+        <a href="#why-us">Why Us</a>
+        <a href="#categories">Categories</a>
+        <a href="#products">Products</a>
+        <a href="#contact-form">Order</a>
+        <a href="login.html" class="login-nav-btn">
+  Login
+</a>
+<a href="blog.html" class="login-nav-btn">
+  DOC
+</a>
+      </nav>
+
+      <button id="menu-btn" class="menu-btn">☰</button>
+    </div>
+
+    <nav id="mobile-menu" class="mobile-nav hidden">
+      <a href="#">Home</a>
+      <a href="#why-us">Why Us</a>
+      <a href="#categories">Categories</a>
+      <a href="#products">Products</a>
+      <a href="#contact-form">Order</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-wrapper">
+
+      <div class="hero-content">
+
+        <p class="hero-tag hero-stagger">
+          Robotics Store
+        </p>
+
+        <h2 class="hero-title hero-stagger">
+          Premium Robotics
+          <span>Components & Kits</span>
+        </h2>
+
+        <p class="hero-description hero-stagger">
+          High-quality motors, sensors, and controllers for hobby, educational, and professional robotics projects.
+        </p>
+
+        <div class="hero-buttons hero-stagger">
+          <a href="#products" class="primary-btn btn-glow">
+            Explore Products
+          </a>
+
+          <a href="#contact-form" class="secondary-btn">
+            Place an Order
+          </a>
+        </div>
+
+        <div class="hero-pill hero-stagger">
+          <span class="pulse"></span>
+          Same-day response • Student friendly pricing • Pan-India shipping
+        </div>
+      </div>
+
+      <div class="hero-card card-3d hero-stagger">
+
+        <div class="hero-card-top">
+          <p>Live Stock Snapshot</p>
+          <span>In-demand</span>
+        </div>
+
+        <div class="stock-list">
+          <div><span>DC Motors</span><strong>120+ in stock</strong></div>
+          <div><span>Arduino Boards</span><strong>80+ units</strong></div>
+          <div><span>Sensors</span><strong>150+ pcs</strong></div>
+          <div><span>Beginner Kits</span><strong>New arrivals</strong></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Why Us -->
+  <section id="why-us" class="section container">
+
+    <div class="section-heading reveal">
+      <h3>Why Choose RoboParts?</h3>
+      <p>
+        We focus on quality, compatibility, and support.
+      </p>
+    </div>
+
+    <div class="grid-3">
+
+      <div class="info-card card-3d reveal">
+        <h4>Quality Assured</h4>
+        <p>
+          Every component is tested before dispatch.
+        </p>
+      </div>
+
+      <div class="info-card card-3d reveal">
+        <h4>Beginner Friendly</h4>
+        <p>
+          Ideal for students and hobbyists.
+        </p>
+      </div>
+
+      <div class="info-card card-3d reveal">
+        <h4>Fast Response</h4>
+        <p>
+          Quick availability and pricing support.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section id="categories" class="section dark-section">
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+        <h3>Shop by Category</h3>
+        <p>Quickly find the components you need.</p>
+      </div>
+
+      <div class="grid-4">
+
+        <div class="category-card card-3d reveal">
+          <h4>Motors</h4>
+          <p>DC motors and servo motors.</p>
+        </div>
+
+        <div class="category-card card-3d reveal">
+          <h4>Controllers</h4>
+          <p>Arduino boards and drivers.</p>
+        </div>
+
+        <div class="category-card card-3d reveal">
+          <h4>Sensors</h4>
+          <p>Ultrasonic and IR sensors.</p>
+        </div>
+
+        <div class="category-card card-3d reveal">
+          <h4>Power</h4>
+          <p>Battery packs and modules.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section id="products" class="products-section">
+
+  <div class="container">
+
+    <div class="section-heading reveal">
+
+      <h3>
+        Top Products
+      </h3>
+
+      <p>
+        Essential components to kickstart your next robotics build.
+      </p>
+
+    </div>
+
+    <div class="products-grid">
+
+      <!-- PRODUCT -->
+      <div class="product-card card-3d reveal delay-1">
+
+        <img
+          src="resources/dc.png"
+          alt="DC Motor"
+        >
+
+        <div class="product-content">
+
+          <h4>DC Motor</h4>
+
+          <p>
+            High torque geared DC motor,
+            ideal for robot drive systems
+            and DIY platforms.
+          </p>
+
+          <span>
+            Voltage: 12V • RPM: 300
+          </span>
+
+          <a href="order.html?product=dc-motor">
+
+            <button class="buy-btn btn-glow">
+              Buy Now
+            </button>
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="product-card card-3d reveal delay-2">
+
+        <img
+          src="resources/arduino.png"
+          alt="Arduino UNO"
+        >
+
+        <div class="product-content">
+
+          <h4>Arduino UNO</h4>
+
+          <p>
+            Classic microcontroller board
+            for prototyping robotics,
+            IoT and automation projects.
+          </p>
+
+          <span>
+            ATmega328P • 14 Digital I/O
+          </span>
+
+          <a href="order.html?product=arduino-uno">
+
+            <button class="buy-btn btn-glow">
+              Buy Now
+            </button>
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="product-card card-3d reveal delay-3">
+
+        <img
+          src="resources/us.png"
+          alt="Ultrasonic Sensor"
+        >
+
+        <div class="product-content">
+
+          <h4>Ultrasonic Sensor</h4>
+
+          <p>
+            Distance measurement sensor
+            for obstacle detection and
+            autonomous navigation.
+          </p>
+
+          <span>
+            Range: 2cm – 400cm
+          </span>
+
+          <a href="order.html?product=ultrasonic-sensor">
+
+            <button class="buy-btn btn-glow">
+              Buy Now
+            </button>
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="product-card card-3d reveal delay-1">
+
+        <img
+          src="resources/servo.jpg"
+          alt="Servo Motor"
+        >
+
+        <div class="product-content">
+
+          <h4>Servo Motor</h4>
+
+          <p>
+            Precise angular control for
+            robotic arms, pan-tilt systems,
+            and automation.
+          </p>
+
+          <span>
+            180° Rotation • 5V
+          </span>
+
+          <a href="order.html?product=servo-motor">
+
+            <button class="buy-btn btn-glow">
+              Buy Now
+            </button>
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="product-card card-3d reveal delay-2">
+
+        <img
+          src="resources/md.jpg"
+          alt="Motor Driver"
+        >
+
+        <div class="product-content">
+
+          <h4>Motor Driver L298N</h4>
+
+          <p>
+            Dual H-bridge motor driver
+            board to control motors and
+            robotic systems.
+          </p>
+
+          <span>
+            Up to 2A per channel
+          </span>
+
+          <a href="order.html?product=motor-driver-l298n">
+
+            <button class="buy-btn btn-glow">
+              Buy Now
+            </button>
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="product-card card-3d reveal delay-3">
+
+        <img
+          src="resources/bp.png"
+          alt="Battery Pack"
+        >
+
+        <div class="product-content">
+
+          <h4>Battery Pack</h4>
+
+          <p>
+            Rechargeable battery pack
+            designed for robotics systems
+            and automation builds.
+          </p>
+
+          <span>
+            12V • 2200mAh
+          </span>
+
+          <a href="order.html?product=battery-pack">
+
+            <button class="buy-btn btn-glow">
+              Buy Now
+            </button>
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+    </div>
+  </section>
+  <!-- ========================= -->
+<!-- REVIEWS SECTION -->
+<!-- ========================= -->
+
+<section class="reviews-section">
+
+  <div class="container">
+
+    <div class="section-heading reveal">
+
+      <h3>
+        Customer Reviews
+      </h3>
+
+      <p>
+        Trusted by robotics enthusiasts and innovators
+      </p>
+
+    </div>
+
+    <!-- REVIEW GRID -->
+    <div class="review-grid" id="reviewGrid">
+
+      <!-- REVIEW -->
+      <div class="review-card card-3d">
+
+        <div class="review-top">
+
+          <div class="review-avatar">
+            A
+          </div>
+
+          <div>
+
+            <h4>Aditya Sharma</h4>
+
+            <div class="stars">
+              ★★★★★
+            </div>
+
+          </div>
+
+        </div>
+
+        <p>
+          Amazing quality motors and really fast delivery.
+          Packaging was premium.
+        </p>
+
+      </div>
+
+      <!-- REVIEW -->
+      <div class="review-card card-3d">
+
+        <div class="review-top">
+
+          <div class="review-avatar">
+            R
+          </div>
+
+          <div>
+
+            <h4>Riya Patel</h4>
+
+            <div class="stars">
+              ★★★★★
+            </div>
+
+          </div>
+
+        </div>
+
+        <p>
+          Best robotics store for students.
+          Loved the UI and tracking system.
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- REVIEW FORM -->
+    <div class="review-form-box card-3d">
+
+      <h3>
+        Leave a Review
+      </h3>
+
+      <form id="reviewForm">
+
+        <input
+          type="text"
+          id="reviewName"
+          placeholder="Your Name"
+          required
+        >
+
+        <textarea
+          id="reviewText"
+          placeholder="Write your review..."
+          required
+        ></textarea>
+
+        <select id="reviewRating">
+
+          <option value="★★★★★">
+            ★★★★★
+          </option>
+
+          <option value="★★★★☆">
+            ★★★★☆
+          </option>
+
+          <option value="★★★☆☆">
+            ★★★☆☆
+          </option>
+
+        </select>
+
+        <button type="submit" class="submit-review-btn">
+          Submit Review
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+
+  <!-- Contact -->
+  <section id="contact-form" class="section dark-section">
+
+    <div class="container form-grid">
+
+      <div class="preview-box">
+
+  <img
+    id="productPreview"
+    src="resources/default.png"
+    alt="Product Preview"
+  >
+
+</div>
+
+      <div class="form-box reveal">
+
+        <h3>Order Your Components</h3>
+
+        <p>
+          Fill in your details and we’ll reach out.
+        </p>
+
+       <form id="orderForm">
+
+  <input
+    type="text"
+    placeholder="Full Name"
+    required
+  >
+
+  <input
+    type="email"
+    placeholder="Email"
+    required
+  >
+
+  <input
+    type="tel"
+    placeholder="Phone Number"
+    required
+  >
+
+  <!-- PRODUCT SELECT -->
+  <select id="productSelect" required>
+
+    <option value="">
+      Select Product
+    </option>
+
+    <option value="dc">
+      DC Motor
+    </option>
+
+    <option value="arduino">
+      Arduino UNO
+    </option>
+
+    <option value="ultrasonic">
+      Ultrasonic Sensor
+    </option>
+
+    <option value="servo">
+      Servo Motor
+    </option>
+
+    <option value="driver">
+      Motor Driver
+    </option>
+
+    <option value="battery">
+      Battery Pack
+    </option>
+
+  </select>
+
+  <textarea
+    placeholder="Additional details"
+  ></textarea>
+
+  <button
+    type="submit"
+    class="submit-btn btn-glow"
+  >
+    Submit Order
+  </button>
+
+</form>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2025 RoboParts • Powered by Innovation
+  </footer>
+
+
+<script>
+
+/* ========================= */
+/* MOBILE MENU */
+/* ========================= */
+
+const menuBtn =
+document.getElementById('menu-btn');
+
+const mobileMenu =
+document.getElementById('mobile-menu');
+
+if(menuBtn && mobileMenu){
+
+  menuBtn.addEventListener('click', () => {
+
+    mobileMenu.classList.toggle('hidden');
+
+  });
+
+}
+
+/* ========================= */
+/* SCROLL REVEAL ANIMATION */
+/* ========================= */
+
+const reveals =
+document.querySelectorAll('.reveal');
+
+const observer =
+new IntersectionObserver((entries) => {
+
+  entries.forEach((entry) => {
+
+    if(entry.isIntersecting){
+
+      entry.target.classList.add('show');
+
+    }
+
+  });
+
+}, {
+  threshold:0.15
+});
+
+reveals.forEach((el) => {
+
+  observer.observe(el);
+
+});
+
+/* ========================= */
+/* PRODUCT IMAGE PREVIEW */
+/* ========================= */
+
+const productSelect =
+document.getElementById('productSelect');
+
+const productPreview =
+document.getElementById('productPreview');
+
+/* PRODUCT IMAGE MAP */
+
+const productImages = {
+
+  dc: "resources/dc.png",
+
+  arduino: "resources/arduino.png",
+
+  ultrasonic: "resources/us.png",
+
+  servo: "resources/servo.jpg",
+
+  driver: "resources/md.jpg",
+
+  battery: "resources/bp.png"
+
+};
+
+/* CHANGE IMAGE ON SELECT */
+
+if(productSelect && productPreview){
+
+  productSelect.addEventListener('change', () => {
+
+    const selectedProduct =
+    productSelect.value;
+
+    if(productImages[selectedProduct]){
+
+      productPreview.src =
+      productImages[selectedProduct];
+
+    }
+    else{
+
+      productPreview.src =
+      "resources/default.png";
+
+    }
+
+  });
+
+}
+
+/* ========================= */
+/* ORDER FORM */
+/* ========================= */
+
+
+
+const orderForm =
+document.getElementById('orderForm');
+
+orderForm.addEventListener('submit',
+
+async (e) => {
+
+  e.preventDefault();
+
+  const inputs =
+  orderForm.querySelectorAll('input');
+
+  const select =
+  orderForm.querySelector('select');
+
+  const textarea =
+  orderForm.querySelector('textarea');
+
+  const orderData = {
+
+    name:inputs[0].value,
+
+    email:inputs[1].value,
+
+    phone:inputs[2].value,
+
+    product:select.value,
+
+    details:textarea.value
+
+  };
+
+  console.log(orderData);
+
+  try{
+
+    const response =
+    await fetch(
+
+      'http://localhost:5000/api/orders/create',
+
+      {
+
+        method:'POST',
+
+        headers:{
+          'Content-Type':'application/json'
+        },
+
+        body:JSON.stringify(orderData)
+
+      }
+
+    );
+
+    const data =
+    await response.json();
+
+    console.log(data);
+
+    if(data.success){
+
+      alert(
+        'Order Submitted Successfully!'
+      );
+
+      orderForm.reset();
+
+    }
+    else{
+
+      alert(data.message);
+
+    }
+
+  }
+  catch(error){
+
+    console.log(error);
+
+    alert('Server Error');
+
+  }
+
+});
+
+
+</script>
+</body>
+</html>
+
+
+

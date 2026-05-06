@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoboParts Login</title>
+  <style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#020617;
+  --card:#0f172a;
+  --orange:#f97316;
+  --amber:#fbbf24;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  position:relative;
+}
+
+.grid-bg{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background-image:
+  linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+  linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+
+.orbs{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:0.45;
+}
+
+.orb1{
+  width:350px;
+  height:350px;
+  background:#f97316;
+  top:-120px;
+  left:-120px;
+  animation:float 12s infinite ease-in-out;
+}
+
+.orb2{
+  width:300px;
+  height:300px;
+  background:#fbbf24;
+  right:-100px;
+  top:20%;
+  animation:float 18s infinite ease-in-out;
+}
+
+.orb3{
+  width:350px;
+  height:350px;
+  background:#ea580c;
+  bottom:-150px;
+  left:35%;
+  animation:float 15s infinite ease-in-out;
+}
+
+.login-wrapper{
+  width:min(1400px,92%);
+  margin:auto;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:50px;
+  align-items:center;
+  padding:60px 0;
+}
+
+.left-panel h1{
+  font-size:5rem;
+  line-height:1;
+  margin-top:20px;
+}
+
+.left-panel h1 span{
+  display:block;
+  color:var(--orange);
+  text-shadow:0 0 25px rgba(249,115,22,0.5);
+}
+
+.left-panel p{
+  margin-top:28px;
+  max-width:650px;
+  color:var(--muted);
+  line-height:1.9;
+  font-size:1.08rem;
+}
+
+.brand-badge{
+  display:inline-flex;
+  align-items:center;
+  padding:12px 22px;
+  border-radius:999px;
+  background:rgba(249,115,22,0.08);
+  border:1px solid rgba(249,115,22,0.18);
+  color:#fdba74;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-size:0.85rem;
+}
+
+.feature-grid{
+  margin-top:50px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
+}
+
+.feature-card{
+  background:rgba(15,23,42,0.8);
+  border:1px solid rgba(249,115,22,0.15);
+  border-radius:24px;
+  padding:28px;
+  backdrop-filter:blur(18px);
+  transition:0.35s;
+  position:relative;
+  overflow:hidden;
+}
+
+.feature-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(249,115,22,0.12), transparent);
+}
+
+.feature-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(249,115,22,0.4);
+  box-shadow:0 25px 40px rgba(0,0,0,0.45);
+}
+
+.feature-card h3{
+  color:#fdba74;
+  margin-bottom:10px;
+  position:relative;
+}
+
+.feature-card span{
+  color:var(--muted);
+  position:relative;
+}
+
+.login-panel{
+  display:flex;
+  justify-content:center;
+}
+
+.login-card{
+  width:100%;
+  max-width:500px;
+  background:rgba(15,23,42,0.88);
+  border:1px solid rgba(249,115,22,0.18);
+  border-radius:36px;
+  padding:45px;
+  backdrop-filter:blur(24px);
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 25px 50px rgba(0,0,0,0.45);
+}
+
+.card-glow{
+  position:absolute;
+  width:300px;
+  height:300px;
+  background:rgba(249,115,22,0.12);
+  border-radius:50%;
+  filter:blur(90px);
+  top:-100px;
+  right:-100px;
+}
+
+.login-top{
+  position:relative;
+  text-align:center;
+}
+
+.logo-circle{
+  width:85px;
+  height:85px;
+  margin:auto;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--orange),var(--amber));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:black;
+  font-size:2rem;
+  font-weight:700;
+  box-shadow:0 0 35px rgba(249,115,22,0.4);
+}
+
+.login-top h2{
+  margin-top:25px;
+  font-size:2rem;
+}
+
+.login-top p{
+  color:var(--muted);
+  margin-top:10px;
+}
+
+form{
+  margin-top:35px;
+  position:relative;
+}
+
+.input-group{
+  margin-bottom:24px;
+}
+
+.input-group label{
+  display:block;
+  margin-bottom:10px;
+  color:#fdba74;
+}
+
+.input-box{
+  background:#020617;
+  border:1px solid rgba(249,115,22,0.12);
+  border-radius:18px;
+  overflow:hidden;
+  transition:0.3s;
+}
+
+.input-box:focus-within{
+  border-color:#f97316;
+  box-shadow:0 0 25px rgba(249,115,22,0.15);
+}
+
+.input-box input{
+  width:100%;
+  padding:18px;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:white;
+  font-size:1rem;
+}
+
+.password-box{
+  display:flex;
+  align-items:center;
+}
+
+.toggle-password{
+  width:60px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  font-size:1rem;
+  color:white;
+}
+
+.options-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
+}
+
+.remember-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--muted);
+}
+
+.forgot-link{
+  color:#fdba74;
+  text-decoration:none;
+}
+
+.login-btn{
+  width:100%;
+  padding:18px;
+  border:none;
+  border-radius:20px;
+  background:linear-gradient(135deg,var(--orange),var(--amber));
+  color:black;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.35s;
+}
+
+.login-btn:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 35px rgba(249,115,22,0.4);
+}
+
+.divider{
+  margin:35px 0;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  color:var(--muted);
+  font-size:0.85rem;
+}
+
+.divider::before,
+.divider::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:rgba(255,255,255,0.08);
+}
+
+.google-btn{
+  width:100%;
+  padding:16px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:#111827;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.google-btn span{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:white;
+  color:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+
+.google-btn:hover{
+  transform:translateY(-3px);
+  border-color:rgba(249,115,22,0.25);
+}
+
+.signup-link{
+  text-align:center;
+  margin-top:28px;
+  color:var(--muted);
+}
+
+.signup-link a{
+  color:#fdba74;
+  text-decoration:none;
+}
+
+@keyframes float{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-25px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
+}
+
+@media(max-width:1100px){
+
+  .login-wrapper{
+    grid-template-columns:1fr;
+  }
+
+  .left-panel{
+    text-align:center;
+  }
+
+  .left-panel p{
+    margin:auto;
+    margin-top:28px;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .left-panel h1{
+    font-size:3.5rem;
+  }
+
+  .feature-grid{
+    grid-template-columns:1fr;
+  }
+
+  .login-card{
+    padding:30px;
+  }
+
+  .options-row{
+    flex-direction:column;
+    gap:15px;
+    align-items:flex-start;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .left-panel h1{
+    font-size:2.8rem;
+  }
+
+}
+
+
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<div class="orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<section class="login-wrapper">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+
+    <div class="brand-badge">
+      Robotics Store
+    </div>
+
+    <h1>
+      Welcome To
+      <span>RoboParts</span>
+    </h1>
+
+    <p>
+      Premium futuristic robotics components store with
+      advanced shipment tracking, secure payment systems,
+      and modern IoT hardware solutions.
+    </p>
+
+    <div class="feature-grid">
+
+      <div class="feature-card">
+        <h3>Secure Checkout</h3>
+        <span>Encrypted demo payment system</span>
+      </div>
+
+      <div class="feature-card">
+        <h3>Fast Shipping</h3>
+        <span>Live shipment tracking system</span>
+      </div>
+
+      <div class="feature-card">
+        <h3>Premium Hardware</h3>
+        <span>High quality robotics components</span>
+      </div>
+
+      <div class="feature-card">
+        <h3>24/7 Support</h3>
+        <span>WhatsApp integrated support</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- LOGIN CARD -->
+  <div class="login-panel">
+
+    <div class="login-card">
+
+      <div class="card-glow"></div>
+
+      <div class="login-top">
+
+        <div class="logo-circle">
+          <span>R</span>
+        </div>
+
+        <h2>Login Account</h2>
+
+        <p>
+          Access your robotics dashboard
+        </p>
+
+      </div>
+
+      <form id="loginForm">
+
+        <div class="input-group">
+          <label>Email Address</label>
+
+          <div class="input-box">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+
+          <div class="input-box password-box">
+
+            <input
+              type="password"
+              id="passwordInput"
+              placeholder="Enter password"
+              required
+            >
+
+            <button
+              type="button"
+              id="togglePassword"
+              class="toggle-password"
+            >
+              👁
+            </button>
+
+          </div>
+        </div>
+
+        <div class="options-row">
+
+          <label class="remember-box">
+            <input type="checkbox">
+            <span>Remember Me</span>
+          </label>
+
+          <a href="#" class="forgot-link">
+            Forgot Password?
+          </a>
+
+        </div>
+
+        <button type="submit" class="login-btn">
+          Login Account
+        </button>
+
+      </form>
+
+      <div class="divider">
+        <span>OR CONTINUE WITH</span>
+      </div>
+
+      <button class="google-btn">
+        <span>G</span>
+        Continue With Google
+      </button>
+
+      <div class="signup-link">
+        Don’t have an account?
+        <a href="#">Create Account</a>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+
+const passwordInput =
+document.getElementById('passwordInput');
+
+const togglePassword =
+document.getElementById('togglePassword');
+
+togglePassword.addEventListener('click', () => {
+
+  if(passwordInput.type === 'password'){
+
+    passwordInput.type = 'text';
+    togglePassword.innerHTML = '🙈';
+
+  }
+  else{
+
+    passwordInput.type = 'password';
+    togglePassword.innerHTML = '👁';
+
+  }
+
+});
+
+const loginForm =
+document.getElementById('loginForm');
+
+loginForm.addEventListener('submit', async (e) => {
+
+  e.preventDefault();
+
+  const email =
+  document.querySelector(
+    'input[type=\"email\"]'
+  ).value;
+
+  const password =
+  document.getElementById(
+    'passwordInput'
+  ).value;
+
+  try{
+
+    const response =
+    await fetch(
+
+      'http://localhost:5000/api/auth/login',
+
+      {
+
+        method:'POST',
+
+        headers:{
+          'Content-Type':'application/json'
+        },
+
+        body:JSON.stringify({
+
+          email,
+          password
+
+        })
+
+      }
+
+    );
+
+    const data =
+    await response.json();
+
+    if(data.success){
+
+      /* SAVE TOKEN */
+
+      localStorage.setItem(
+        'token',
+        data.token
+      );
+
+      localStorage.setItem(
+        'user',
+        JSON.stringify(data.user)
+      );
+
+      alert('Login Successful');
+
+      window.location.href =
+      'index.html';
+
+    }
+    else{
+
+      alert(data.message);
+
+    }
+
+  }
+  catch(error){
+
+    console.log(error);
+
+    alert('Server Error');
+
+  }
+
+});
+
+
+</script>
+
+</body>
+</html>
+
